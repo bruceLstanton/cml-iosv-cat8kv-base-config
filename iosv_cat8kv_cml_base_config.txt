@@ -1,0 +1,61 @@
+!!BASE CONFIG FOR IOSv & CAT8KV DEVICES IN CML
+no ip domain lookup
+!
+no banner motd
+no banner exec
+no banner login
+no banner incoming
+!
+enable password cisco
+!
+aaa new-model
+aaa authentication login default local enable
+aaa authentication login ADMIN local
+aaa authentication enable default enable
+aaa authorization console
+aaa authorization exec default local
+!
+username cisco privilege 15 secret cisco
+!
+line con 0
+ logging synchronous
+ exec-timeout 0 0
+!
+line vty 0 4
+ transport input ssh
+ login authentication ADMIN
+!
+event manager environment q "
+event manager session cli username "cisco"
+event manager applet KEYGEN authorization bypass
+ description /// GENERATE RSA KEY FOR SSH ///
+ event syslog pattern ".*CVAC-4.*" maxrun 60
+ action 0025 syslog msg "INFO - GENERATING RSA KEY FOR SSH"
+ action 0030 cli command "enable"
+ action 0035 cli command "config t"
+ action 0040 cli command "crypto key generate rsa modulus 2048 label SSHKEY"
+ action 0045 syslog msg "INFO - RSA KEY HAS BEEN GENERATED"
+ action 0050 syslog msg "INFO - REMOVING KEGEN APPLET"
+ action 0055 cli command "no event manager applet KEYGEN"
+ action 0060 syslog msg "INFO - SAVING CONFIGURATION"
+ action 0065 cli command "end"
+ action 0070 cli command "wr"
+ action 0075 syslog msg "INFO - EXITING KEGEN APPLET"
+ action 9999 exit
+event manager applet BANNER_REMOVER authorization bypass
+ description /// REMOVING BANNER CONFIGS ///
+ event syslog pattern ".*SIGNATURE_VERIFIED.*" maxrun 60
+ action 0025 syslog msg "INFO - REMOVING BANNER CONFIGS"
+ action 0030 cli command "enable"
+ action 0035 cli command "config t"
+ action 0040 cli command "no banner motd"
+ action 0045 cli command "no banner exec"
+ action 0050 cli command "no banner login"
+ action 0055 cli command "no banner incoming"
+ action 0060 syslog msg "INFO - BANNER CONFIGS REMOVED"
+ action 0065 syslog msg "INFO - SAVING CONFIGURATION"
+ action 0070 cli command "end"
+ action 0075 cli command "wr"
+ action 9998 syslog msg "INFO - EXITING BANNER_REMOVER APPLET"
+ action 9999 exit
+end

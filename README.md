@@ -3,7 +3,7 @@ Base Configuration File for IOSv &amp; Cat8kv Devices for CML
 
 ## Introduction
 
-This is a baseline/primer configuration for quickly provisioning Cisco IOSv and Cat8000v (Cat8kv)) devices in Cisco Modeling Labs (CML).
+This is a baseline/primer configuration for quickly provisioning Cisco **IOSv** and **Cat8000v (Cat8kv)** devices in Cisco Modeling Labs (CML).
 
 ## Function
 

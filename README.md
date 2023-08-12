@@ -19,8 +19,13 @@ This configuration does the following:
 - Disables `exec-timeout` on console
 
 ## Usage
+- Clone or download this repository
+- Open
+- Copy, paste, and save as shown below
+
 ![Screenshot](./docs/images/How_To_Use_Base_Configs_In_CML.png)
 
 ## Notes
 
-Modify as needed. Change passwords, timeouts, add interfaces, etc.
+- Neither I nor this project is associated with Cisco Systems, Inc. or VanDyke Software in any way.
+- Modify as needed. Change passwords, timeouts, add interfaces, etc.
